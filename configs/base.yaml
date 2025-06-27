@@ -1,0 +1,78 @@
+hydra:
+  run:
+    dir: ckpt/tmp
+  job:
+    chdir: True
+
+data: safe
+
+wandb:
+  project: genmol
+  name: null
+
+loader:
+  global_batch_size: 2048
+  batch_size: ${div_up:${.global_batch_size}, ${eval:${trainer.devices} * ${trainer.num_nodes}}}
+  num_workers: 32
+  pin_memory: True
+
+optim:
+  weight_decay: 0
+  lr: 3e-4
+  beta1: 0.9
+  beta2: 0.999
+  eps: 1e-8
+
+trainer:
+  _target_: lightning.Trainer
+  accelerator: cuda
+  num_nodes: 1
+  devices: ${device_count:}
+  accumulate_grad_batches: ${div_up:${loader.global_batch_size}, ${eval:${trainer.devices} * ${loader.batch_size} * ${trainer.num_nodes}}}
+  gradient_clip_val: 1.0
+  precision: 'bf16'
+  max_steps: 50000
+  log_every_n_steps: 10
+
+model:
+  attention_probs_dropout_prob: 0.1
+  classifier_dropout: null
+  hidden_act: 'gelu'
+  hidden_dropout_prob: 0.1
+  hidden_size: 768
+  initializer_range: 0.02
+  intermediate_size: 3072
+  layer_norm_eps: 1e-12
+  max_position_embeddings: 256
+  model_type: 'bert'
+  num_attention_heads: 12
+  num_hidden_layers: 12
+  pad_token_id: 3
+  position_embedding_type: 'absolute'
+  torch_dtype: 'float32'
+  type_vocab_size: 2
+  use_cache: True
+  vocab_size: 1880
+
+noise:
+  type: loglinear
+
+training:
+  T: 0  # 0 (continuous time) / 1000
+  ema: 0.9999
+  antithetic_sampling: True
+  sampling_eps: 1e-3
+  global_mean_loss: True
+  # All token losses are summed and divided by total token count: sum(all_tokens)/count(all_tokens)
+  # Examples with more tokens (longer sequences) implicitly contribute more to the loss
+  # It's weighted by sequence length
+  use_bracket_safe: False
+
+callback:
+  _target_: lightning.pytorch.callbacks.ModelCheckpoint
+  dirpath: ${cwd:}/checkpoints
+  filename: '{step}'
+  save_top_k: -1  # to save every n train steps
+  auto_insert_metric_name: False
+  enable_version_counter: False
+  every_n_train_steps: 5000

@@ -1,0 +1,6 @@
+model_path: model.ckpt
+population_size: 100
+min_mol_size: 20
+max_mol_size: 40
+warmup: 1000
+gamma: 0

@@ -1,0 +1,23 @@
+Name: MDLM
+License: 3rd_party/LICENSE_MDLM
+URL: https://github.com/kuleshov-group/mdlm
+
+Name: GA
+License: 3rd_party/LICENSE_GA
+URL: https://github.com/jensengroup/GB_GA/blob/master/crossover.py
+
+Name: SAFE
+License: 3rd_party/LICENSE_SAFE
+URL: https://github.com/datamol-io/safe/blob/main/safe/sample.py
+
+Name: Flash Attention
+License: 3rd_party/LICENSE_FLASH_ATTENTION
+URL: https://github.com/Dao-AILab/flash-attention/tree/main
+
+Name: MOOD
+License: 3rd_party/LICENSE_MOOD
+URL: https://github.com/SeulLee05/MOOD/blob/main/scorer/docking.py
+
+Name: PMO
+License: 3rd_party/LICENSE_PMO
+URL: https://github.com/wenhao-gao/mol_opt/blob/main/run.py
