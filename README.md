@@ -80,6 +80,13 @@ Run the following command to perform *de novo* generation:
 python scripts/exps/denovo.py
 ```
 
+If you see _pickle.UnpicklingError: invalid load key, '<' error. It is likely coming from /miniconda3/envs/genmol/lib/python3.10/site-packages/tdc/chem_utils/oracle/oracle.py", line 347, in readFragmentScores _fscores = pickle.load(f)
+
+The root cause turned out to be a corrupted or incompletely downloaded pkl file for the SA score. The fix is simple: just grab the correct files from the official RDKit repository:
+https://github.com/rdkit/rdkit/tree/master/Contrib/SA_Score/fpscores.pkl.gz
+
+Extract the downloaded file into the genmol/oracle directory
+
 The experiment in the paper used 1 NVIDIA A100 GPU.
 
 ## Fragment-constrained Generation
