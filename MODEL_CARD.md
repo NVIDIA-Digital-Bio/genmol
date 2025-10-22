@@ -8,7 +8,17 @@ This model is ready for commercial use.
 
 ## License/Terms of Use:
 
-GenMol source code is licensed under Apache 2.0 and the model is licensed under the [NVIDIA Open Model License](https://www.nvidia.com/en-us/agreements/enterprise-software/nvidia-open-model-license/). By using GenMol, you accept the terms and conditions of this license.
+Governing Terms: Use of this model is governed by the [NVIDIA Open Model License](https://www.nvidia.com/en-us/agreements/enterprise-software/nvidia-open-model-license/). GenMol source code is licensed under [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0). By using GenMol, you accept the terms and conditions of this license.
+
+Deployment Geography: Global
+
+Use Case: GenMol is a flexible generative AI tool for small molecule design in drug discovery. Its primary use cases include:
+Generating novel molecules: GenMol can create new, valid molecules from scratch (de novo design).
+Optimizing existing molecules: It can be used to modify and improve current molecules through inference tasks like scaffold decoration, motif extension, superstructure generation, and linker design.
+Property optimization: When paired with external scoring models or methods, GenMol aids in designing molecules with specific desired properties, which is a critical step in developing effective drugs.
+
+Release Date:
+Github 07/22/2025 via https://github.com/NVIDIA-Digital-Bio/genmol
 
 ## References:
 
@@ -65,7 +75,8 @@ NVIDIA Grace Hopper <br>
 **[Preferred/Supported] Operating System(s):** <br>  
 Linux <br>
 
-## Model Version(s):  
+## Model Version(s):
+GenMol v2.0 <br>
 GenMol v1.0 <br>
 
 # Training & Evaluation Dataset:
@@ -123,7 +134,7 @@ Please report security vulnerabilities or NVIDIA AI Concerns [here](https://www.
 |Verified to have met prescribed quality standards?|Yes|  
 |Performance Metrics|Validity, Uniqueness, Diversity, Central Distance, Qualified Ratio.|  
 |Potential Known Risks|The model may produce molecules that are difficult or impossible in synthesis.|  
-|Licensing & Terms of Use|The NIM container is governed by the [NVIDIA Software License Agreement](https://www.nvidia.com/en-us/agreements/enterprise-software/nvidia-software-license-agreement/) the [Product-Specific Terms for NVIDIA AI Products](https://www.nvidia.com/en-us/agreements/enterprise-software/product-specific-terms-for-ai-products/); and the use of this model is governed by the [AI Foundation Models Community License Agreement](https://docs.nvidia.com/ai-foundation-models-community-license.pdf).|
+|Licensing & Terms of Use|Governing Terms: Use of this model is governed by the [NVIDIA Open Model License](https://www.nvidia.com/en-us/agreements/enterprise-software/nvidia-open-model-license/). GenMol source code is licensed under [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0).|
 
 ## Privacy
 
@@ -142,5 +153,5 @@ Please report security vulnerabilities or NVIDIA AI Concerns [here](https://www.
 |:---|:---|  
 |Model Application(s)|Molecular drug discovery and design|  
 |Describe life critical application (if present)|Experimental drug discovery and medicine. Should not be used for life-critical use cases per [NVIDIA Software License Agreement](https://www.nvidia.com/en-us/agreements/enterprise-software/nvidia-software-license-agreement/).|  
-|Use Case Restrictions|Abide by [NVIDIA Software License Agreement](https://www.nvidia.com/en-us/agreements/enterprise-software/nvidia-software-license-agreement/); the [Product-Specific Terms for NVIDIA AI Products](https://www.nvidia.com/en-us/agreements/enterprise-software/product-specific-terms-for-ai-products/); and the [AI Foundation Models Community License Agreement](https://docs.nvidia.com/ai-foundation-models-community-license.pdf).|  
+|Use Case Restrictions|Abide by [NVIDIA Open Model License](https://www.nvidia.com/en-us/agreements/enterprise-software/nvidia-open-model-license/). GenMol source code is licensed under [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0).|  
 |Model and Dataset Restrictions|The Principle of least privilege (PoLP) is applied limiting access for dataset generation and model development. Restrictions enforce dataset access during training, and dataset license constraints adhered to.|
