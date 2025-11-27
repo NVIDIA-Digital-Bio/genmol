@@ -1,0 +1,27 @@
+model_path: model_v2.ckpt
+num_samples: 100
+linker_design_onestep:
+  softmax_temp: 1.2
+  randomness: 3
+  gamma: 0
+  min_add_len: 30
+linker_design:
+  softmax_temp: 1.2
+  randomness: 3
+  gamma: 0
+  min_add_len: 30
+motif_extension:
+  softmax_temp: 1.2
+  randomness: 1.0
+  gamma: 0.3
+  min_add_len: 24
+scaffold_decoration:
+  softmax_temp: 1.5
+  randomness: 2
+  gamma: 0.3
+  min_add_len: 24
+superstructure_generation:
+  softmax_temp: 1.5
+  randomness: 2
+  gamma: 0.4
+  min_add_len: 24

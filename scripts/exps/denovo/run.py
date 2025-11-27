@@ -18,6 +18,8 @@ import os
 import sys
 sys.path.append(os.path.realpath('.'))
 
+import argparse
+import yaml
 from time import time
 import pandas as pd
 from tdc import Oracle, Evaluator
@@ -25,14 +27,22 @@ from genmol.sampler import Sampler
 
 
 if __name__ == '__main__':
-    num_samples = 1000
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-c', '--config', default='hparams.yaml')
+    config = parser.parse_args().config
+    config = yaml.safe_load(open(os.path.join(os.path.dirname(os.path.realpath(__file__)), config)))
+    
+    num_samples = config['num_samples']
     evaluator = Evaluator('diversity')
     oracle_qed = Oracle('qed')
     oracle_sa = Oracle('sa')
-    sampler = Sampler('model.ckpt')
+    sampler = Sampler(config['model_path'])
     
     t_start = time()
-    samples = sampler.de_novo_generation(num_samples, softmax_temp=0.5, randomness=0.5)
+    samples = sampler.de_novo_generation(num_samples,
+                                         softmax_temp=config['softmax_temp'],
+                                         randomness=config['randomness'],
+                                         min_add_len=config['min_add_len'])
     print(f'Time:\t\t{time() - t_start:.2f} sec')
     df = pd.DataFrame({'smiles': samples, 'qed': oracle_qed(samples), 'sa': oracle_sa(samples)})
     print(f'Validity:\t{len(df["smiles"]) / num_samples}')

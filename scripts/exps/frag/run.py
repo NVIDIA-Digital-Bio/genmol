@@ -18,6 +18,8 @@ import os
 import sys
 sys.path.append(os.path.realpath('.'))
 
+import argparse
+import yaml
 import pandas as pd
 import numpy as np
 from tdc import Oracle, Evaluator
@@ -39,32 +41,34 @@ def get_distance(smiles, df):
 
 
 if __name__ == '__main__':
-    num_samples = 100
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-c', '--config', default='hparams.yaml')
+    config = parser.parse_args().config
+    config = yaml.safe_load(open(os.path.join(os.path.dirname(os.path.realpath(__file__)), config)))
+    
+    num_samples = config['num_samples']
     evaluator = Evaluator('diversity')
     oracle_qed = Oracle('qed')
     oracle_sa = Oracle('sa')
-    demo = Sampler('model.ckpt')
+    demo = Sampler(config['model_path'])
     data = pd.read_csv('data/fragments.csv')
-    tasks = ['linker_design', 'motif_extension', 'scaffold_decoration', 'superstructure_generation']
-    # tasks = ['linker_design_onestep']
+
+    tasks = ['linker_design', 'motif_extension', 'scaffold_decoration', 'superstructure_generation', 'linker_design_onestep']
     #! Linker Design / Scaffold Morphing = generate a linker fragment that connects given two side chains
     #! Motif Extension = generate molecule with existing motif
     #! Scaffold Decoration = same as Motif Extension but start with larger scaffold 
     #! Superstructure Generation = generate a molecule when a substructure constraint is given
     #! Linker Design (1-step) = generate a linker fragment that connects given two side chains without sequence mixing
+
     for task in tasks:
-        if task == 'linker_design' or task == 'scaffold_morphing':
+        if task in ('linker_design', 'scaffold_morphing'):
             task = 'linker_design'
-            sampling_fn = lambda f: demo.fragment_linking(f, num_samples, randomness=3)
-        elif task == 'motif_extension':
-            sampling_fn = lambda f: demo.fragment_completion(f, num_samples, randomness=1.2, gamma=0.3)
-        elif task == 'scaffold_decoration':
-            sampling_fn = lambda f: demo.fragment_completion(f, num_samples, gamma=0.3)
-        elif task == 'superstructure_generation':
-            sampling_fn = lambda f: demo.fragment_completion(f, num_samples, gamma=0.4)
+            sampling_fn = lambda f: demo.fragment_linking(f, num_samples, **config[task])
+        elif task in ('motif_extension', 'scaffold_decoration', 'superstructure_generation'):
+            sampling_fn = lambda f: demo.fragment_completion(f, num_samples, **config[task])
         elif task == 'linker_design_onestep':
+            sampling_fn = lambda f: demo.fragment_linking_onestep(f, num_samples, **config[task])
             task = 'linker_design'
-            sampling_fn = lambda f: demo.fragment_linking_onestep(f, num_samples, randomness=3)
         
         validity, uniqueness, diversity, distance, quality = [], [], [], [], []
         for original, fragment in zip(data['smiles'], data[task]):
