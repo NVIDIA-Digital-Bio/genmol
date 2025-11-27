@@ -1,5 +1,5 @@
 # bionemo sub-packages
-bionemo-moco==0.0.2.1
+bionemo-moco>=0.0.2.1
 
 # external dependencies
 torch==2.6.0
@@ -16,7 +16,7 @@ hydra-core==1.3.2
 lightning==2.5.1
 omegaconf==2.3.0
 transformers==4.56.2
-safe-mol==0.1.13
+safe-mol==0.1.14
 pytdc==0.4.1
 easydict==1.13
 openbabel-wheel==3.1.1.22
