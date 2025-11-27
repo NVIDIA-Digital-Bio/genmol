@@ -83,7 +83,7 @@ echo "Fixed safe package in environment: $CONDA_PREFIX"
 
 ## 🔬 GenMol V1
 ### Training
-We provide the pretrained [checkpoint](https://catalog.ngc.nvidia.com/orgs/nvidia/teams/clara/resources/genmol_v1). Place `model.ckpt` in the current top genmol directory.
+We provide the pretrained [checkpoint](https://catalog.ngc.nvidia.com/orgs/nvidia/teams/clara/resources/genmol_v1). Place `model.ckpt` in the checkpoints directory and set the correct information in ./configs/base.yaml.
 
 (Optional) To train GenMol from scratch, run the following command:
 ```bash
@@ -234,7 +234,7 @@ GenMol V2 trained with the extended SAFE syntax actually shows significantly imp
 | GenMol V2 | 80.0 |
 
 ### Training
-We provide the trained GenMol V2 [checkpoint](https://catalog.ngc.nvidia.com/orgs/nvidia/teams/clara/resources/genmol_v2?version=1.0). Place `model_v2.ckpt` in the current top genmol directory.
+We provide the trained GenMol V2 [checkpoint](https://catalog.ngc.nvidia.com/orgs/nvidia/teams/clara/resources/genmol_v2?version=1.0). Place `model_v2.ckpt` in the checkpoints directory and set the correct information in ./configs/base.yaml.
 
 (Optional) To train GenMol V2 from scratch, run the following command:
 ```bash
