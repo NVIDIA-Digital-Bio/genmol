@@ -1,0 +1,5 @@
+model_path: model.ckpt
+num_samples: 1000
+softmax_temp: 0.5
+randomness: 0.5
+min_add_len: 40
