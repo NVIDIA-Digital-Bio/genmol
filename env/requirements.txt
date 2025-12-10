@@ -6,7 +6,7 @@ torch==2.6.0
 numpy==1.26.4
 jaxtyping>=0.2.34
 pot>=0.9.5
-scikit-learn==1.2.2
+# scikit-learn==1.2.2 install this after due to soft bionemo-moco conflict
 matplotlib>=3.3.2
 einops==0.7.0
 wandb==0.13.5
