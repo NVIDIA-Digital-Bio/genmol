@@ -93,7 +93,7 @@ Other hyperparameters can be adjusted in `configs/base.yaml`.<br>
 The training used 8 NVIDIA A100 GPUs and took ~5 hours.
 
 ### (Optional) Training with User-defined Dataset
-We used the [SAFE dataset](https://huggingface.co/datasets/datamol-io/safe-gpt) to train GenMol. To use your own training dataset, first convert your SMILES dataset into SAFE by running the following command:
+We used the [SAFE dataset](https://huggingface.co/datasets/datamol-io/safe-drugs) to train GenMol. To use your own training dataset, first convert your SMILES dataset into SAFE by running the following command:
 ```bash
 python scripts/preprocess_data.py ${input_path} ${data_path}
 ```
