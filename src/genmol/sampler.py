@@ -53,7 +53,7 @@ class Sampler:
         self.mdlm.to_device(self.model.device)
         
     @torch.no_grad()
-    def generate(self, x, softmax_temp=1.2, randomness=2, fix=True, gamma=0, w=2):
+    def generate(self, x, softmax_temp=1.2, randomness=2, fix=True, gamma=0, w=2, **kwargs):
         x = x.to(self.model.device)
         num_steps = max(self.mdlm.get_num_steps_confidence(x), 2)
         attention_mask = x != self.pad_index
@@ -88,7 +88,7 @@ class Sampler:
         samples = [sorted(s.split('.'), key=len)[-1] for s in samples if s]
         return samples
 
-    def _insert_mask(self, x, num_samples, min_add_len=18):
+    def _insert_mask(self, x, num_samples, min_add_len=18, **kwargs):
         with open(os.path.join(ROOT_DIR, 'data/len.pk'), 'rb') as f:
             seq_len_list = pickle.load(f)
         
@@ -104,15 +104,15 @@ class Sampler:
         return torch.stack(x_new)
     
     @torch.no_grad()
-    def de_novo_generation(self, num_samples=1, softmax_temp=0.8, randomness=0.5):
+    def de_novo_generation(self, num_samples=1, softmax_temp=0.8, randomness=0.5, min_add_len=40, **kwargs):
         # Prepare Fully Masked Inputs
         x = torch.hstack([torch.full((1, 1), self.model.bos_index),
                           torch.full((1, 1), self.model.eos_index)])
-        x = self._insert_mask(x, num_samples, min_add_len=40)
+        x = self._insert_mask(x, num_samples, min_add_len=min_add_len)
         x = x.to(self.model.device)
         return self.generate(x, softmax_temp, randomness)
     
-    def fragment_linking_onestep(self, fragment, num_samples=1, softmax_temp=1.2, randomness=2, gamma=0):
+    def fragment_linking_onestep(self, fragment, num_samples=1, softmax_temp=1.2, randomness=2, gamma=0, min_add_len=30, **kwargs):
         if self.model.config.training.get('use_bracket_safe'):
             encoded_fragment = BracketSAFEConverter(slicer=None).encoder(fragment, allow_empty=True)
         else:
@@ -122,12 +122,12 @@ class Sampler:
                                  return_tensors='pt',
                                  truncation=True,
                                  max_length=self.model.config.model.max_position_embeddings)['input_ids']
-        x = self._insert_mask(x, num_samples, min_add_len=30)
+        x = self._insert_mask(x, num_samples, min_add_len=min_add_len)
         samples = self.generate(x, softmax_temp, randomness, gamma=gamma)
         samples = filter_by_substructure(samples, fragment)
         return samples
     
-    def fragment_linking(self, fragment, num_samples=1, softmax_temp=1.2, randomness=2, gamma=0):
+    def fragment_linking(self, fragment, num_samples=1, softmax_temp=1.2, randomness=2, gamma=0, min_add_len=30, **kwargs):
         encoded_fragment = sf.SAFEConverter(slicer=None).encoder(fragment, allow_empty=True)
         prefix, suffix = encoded_fragment.split('.')
 
@@ -135,21 +135,21 @@ class Sampler:
                                  return_tensors='pt',
                                  truncation=True,
                                  max_length=self.model.config.model.max_position_embeddings)['input_ids']
-        x = self._insert_mask(x, num_samples, min_add_len=30)
+        x = self._insert_mask(x, num_samples, min_add_len=min_add_len)
         prefix_samples = self.generate(x, softmax_temp, randomness, gamma=gamma)
 
         x = self.model.tokenizer([suffix + '.'],
                                  return_tensors='pt',
                                  truncation=True,
                                  max_length=self.model.config.model.max_position_embeddings)['input_ids']
-        x = self._insert_mask(x, num_samples, min_add_len=30)
+        x = self._insert_mask(x, num_samples, min_add_len=min_add_len)
         suffix_samples = self.generate(x, softmax_temp, randomness, gamma=gamma)
         
         samples = filter_by_substructure(mix_sequences(prefix_samples, suffix_samples,
                                                       *fragment.split('.'), num_samples), fragment)
         return samples
         
-    def fragment_completion(self, fragment, num_samples=1, apply_filter=True, softmax_temp=1.2, randomness=2, gamma=0):
+    def fragment_completion(self, fragment, num_samples=1, apply_filter=True, softmax_temp=1.2, randomness=2, gamma=0, **kwargs):
         if '*' not in fragment:     # superstructure generation
             cores = sf.utils.list_individual_attach_points(Chem.MolFromSmiles(fragment), depth=3)
             fragment = random.choice(cores)
