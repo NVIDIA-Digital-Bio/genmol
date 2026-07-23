@@ -247,7 +247,7 @@ The training used 8 NVIDIA A100 GPUs.
 ### *De Novo* Generation
 Run the following command to perform *de novo* generation using GenMol V2:
 ```bash
-python scripts/exps/denovo/run.py -c scripts/exps/frag/hparams_v2.yaml
+python scripts/exps/denovo/run.py -c hparams_v2.yaml
 ```
 
 ### Fragment-constrained Generation
