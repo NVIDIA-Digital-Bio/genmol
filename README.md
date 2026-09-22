@@ -19,8 +19,8 @@ This is the official code repository for the paper titled [GenMol: A Drug Discov
 We introduce GenMol V2, trained with an extended SAFE syntax, demonstrating improved performance in *de novo* and fragment-constrained generation. Please refer to the section below: [GenMol V2: GenMol with Extended SAFE Syntax](#-genmol-v2-genmol-with-extended-safe-syntax).
 
 ## Table of Contents
-- [Installation](#installation)
-- [GenMol V1](#genmol-v1)
+- [Installation](#-installation)
+- [GenMol V1](-#genmol-v1)
   - [Training](#training)
   - [Training with User-defined Dataset](#optional-training-with-user-defined-dataset)
   - [*De Novo* Generation](#de-novo-generation)
@@ -35,7 +35,7 @@ We introduce GenMol V2, trained with an extended SAFE syntax, demonstrating impr
   - [*De Novo* Generation](#de-novo-generation-1)
   - [Fragment-constrained Generation](#fragment-constrained-generation-1)
 - [License](#license)
-- [Citation](#citation)
+- [Citation](-#citation)
 
 ## 📦 Installation
 Clone this repository:
